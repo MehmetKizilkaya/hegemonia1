@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run build --workspace=@hegemonia/shared --prefix ../..",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
