@@ -1,2 +1,14 @@
 [phases.setup]
 nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = [
+  "npm run build --workspace=@hegemonia/shared",
+  "npm run build --workspace=@hegemonia/api",
+]
+
+[start]
+cmd = "npm run start --workspace=@hegemonia/api"

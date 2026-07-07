@@ -1,3 +1,4 @@
+import '../../load-env.js';
 import { eq } from 'drizzle-orm';
 import PgBoss from 'pg-boss';
 import { PROVINCES, MVP_ITEMS, MVP_FACTORY_TYPES, MVP_RECIPES } from '@hegemonia/shared';
