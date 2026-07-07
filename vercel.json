@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build --workspace=@hegemonia/shared && npm run build --workspace=@hegemonia/web",
+  "outputDirectory": "apps/web/dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/((?!assets/|turkey\\.svg|favicon).*)", "destination": "/index.html" }
+  ]
+}

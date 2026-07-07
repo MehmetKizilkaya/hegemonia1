@@ -1,0 +1,777 @@
+Oyun Tasarım Belgesi (GDD): Hegemonia
+Versiyon: 2.1 | Son Güncelleme: Temmuz 2026
+
+═══════════════════════════════════════════════════════════════════════════════
+1. PROJE ÖZETİ (Executive Summary)
+═══════════════════════════════════════════════════════════════════════════════
+
+Oyunun Adı: Hegemonia
+
+Platform: Web ve Mobil Tarayıcı (PWA destekli, responsive-first)
+
+Temel Vizyon: Oyuncuların tıklama ve menü geçişleriyle ilerlediği asenkron, metin ve menü tabanlı küresel strateji oyunu. Her oturum 2–15 dakika sürer; gerçek ilerleme günler ve haftalar boyunca şekillenir.
+
+Değer Teklifi: P2W (Pay-to-Win) mekaniklerinin kesinlikle barınmadığı, zekânın, sosyal becerinin ve stratejik sabrın ödüllendirildiği adil rekabet ekosistemi.
+
+Hedef Oyuncu Profili: Strateji, politika simülasyonu ve ekonomi oyunlarına ilgi duyan; günde birkaç kısa oturumla ilerlemek isteyen, uzun vadeli topluluk hedeflerine katılmaktan keyif alan oyuncular.
+
+Başarı Metrikleri (KPI):
+  • D1 Retention: %40+ | D7 Retention: %20+ | D30 Retention: %10+
+  • Günlük Oturum Sayısı: Oyuncu başına ortalama 3–4
+  • Ortalama Oturum Süresi: 8–12 dakika
+
+═══════════════════════════════════════════════════════════════════════════════
+2. TEMEL OYUNANIŞ DÖNGÜSÜ (Core Loop)
+═══════════════════════════════════════════════════════════════════════════════
+
+Kusursuz Döngü: Ekonomi → Siyaset → Savaş → Yeni Kaynaklar → Ekonomi
+
+Her katman bir sonrakini besler ve oyuncuya farklı bir "oyun hissi" sunar:
+  • Ekonomi: Bireysel güç ve pazar etkisi
+  • Siyaset: Topluluk gücü ve kurumsal kontrol
+  • Savaş: Bölgesel hakimiyet ve kaynak transferi
+
+Mikro Döngü (Tek Oturum — 2–5 dk):
+  Enerji kontrolü → Çalış/Üret (bölge bonusu) → Pazar fiyatları + enflasyon kontrolü →
+  Al/Sat → Günlük görev tamamla
+
+Makro Döngü (Haftalık — 30–60 dk toplam):
+  Bölge uzmanlığına göre üret → eksik kaynakları pazardan tamamla → şirket/borsa yatırımı →
+  Parti/ittifak faaliyeti → Seçim veya savaş hazırlığı → Sonuçları değerlendir
+
+═══════════════════════════════════════════════════════════════════════════════
+3. BAĞLILIK DÖNGÜLERİ (Engagement Loops)
+═══════════════════════════════════════════════════════════════════════════════
+
+Tasarım Hedefi: Oyuncuyu günde en az 3–4 kez oyuna geri getirmek. Her dönüşün net bir nedeni ve ödülü olmalıdır.
+
+─── 3.1 Kısa Süreli Döngüler (Günlük / Saatlik) ───
+
+Amaç: "Şimdi gir, 3 dakikada bir şey kazan, çık" hissi.
+
+Günlük Görevler (Daily Quests):
+  • Her gün 00:00 UTC'de 3 görev atanır (Kolay / Orta / Zor)
+  • Örnekler:
+    - "3 kez Çalış butonuna bas" → +50 XP, +1 Enerji
+    - "Pazarda 1 ürün sat" → +100 Altın
+    - "Bölgenin Savunma Puanına 500 hasar ver" → +Savaş Madalyası parçası
+  • 3/3 tamamlanınca bonus sandık: rastgele kaynak veya nadir kozmetik parçası
+  • Seri (Streak) bonusu: 7 gün üst üste tamamlayan +%15 üretim verimi (kalıcı değil, haftalık yenilenir)
+
+Pazar Takibi (Market Watch):
+  • Oyuncu en fazla 5 ürünü "İzleme Listesi"ne ekleyebilir
+  • Fiyat %10+ değiştiğinde push bildirimi: "Demir fiyatı %14 düştü — şimdi al?"
+  • "Pazar Nabzı" widget'ı: Son 24 saatte en çok işlem gören 3 ürün ve trend oku (↑↓)
+  • Sabah / öğle / akşam "Pazar Özeti" e-postası veya bildirimi (opsiyonel, ayarlanabilir)
+
+Enerji Yenileme Döngüsü:
+  • Enerji her 4 saatte +1 yenilenir (maks. 20)
+  • Bu, günde doğal olarak 4–6 giriş noktası yaratır
+  • "Enerji dolmak üzere" bildirimi: son 1 enerji kaldığında
+
+Bölgesel Anlık Olaylar (Flash Events):
+  • Rastgele, 2–6 saat süren mini etkinlikler: "Petrol Kuyusu Patlaması — bu bölgede +%30 petrol üretimi"
+  • Sadece o bölgedeki aktif oyunculara bildirim gider
+  • Katılım için hızlı giriş teşviki
+
+─── 3.2 Uzun Süreli Döngüler (Haftalık / Aylık) ───
+
+Amaç: "Bu hafta bir hedefim var, her gün bir parça ilerleyeceğim" hissi.
+
+Seçim Dönemi (Election Cycle — 14 gün):
+  • Gün 1–7: Adaylık, parti kurma, propaganda (gazete makaleleri, konferanslar)
+  • Gün 8–12: Kampanya — günlük "seçmen ikna" görevleri (üretim, bağış, savunma katkısı)
+  • Gün 13: Son 24 saat sprint — çift XP, çift propaganda etkisi
+  • Gün 14: Seçim günü — sonuçlar açıklanır, yeni hükümet kurulur
+  • Kaybeden partiler "Muhalefet Bonusu" alır: +%10 araştırma/üretim (dengeleyici mekanik)
+
+Büyük Savaş Hazırlığı (War Campaign — 7–10 gün):
+  • Gün 1–3: Casusluk ve istihbarat — düşman bölge savunma puanını öğren
+  • Gün 4–6: Lojistik — silah üretimi, pazardan toplu alım, ittifak asker toplama
+  • Gün 7–8: Saldırı penceresi — koordineli asenkron saldırı
+  • Gün 9–10: Sonuç ve ganimet paylaşımı
+  • Hazırlık aşamasında günlük "Cephe Raporu" görevleri: her tamamlanan +saldırı bonusu
+
+Sezonluk Lig (Seasonal League — 30 gün):
+  • Ülke veya bölge bazlı sıralama: üretim, savaş hasarı, ticaret hacmi
+  • Sezon sonu ödülleri: kalıcı unvan, profil çerçevesi, bölge bonusu
+  • Sezon arası "off-season": sadece ekonomi ve diplomasi aktif, savaş kapalı
+
+─── 3.3 Geri Dönüş Tetikleyicileri (Return Triggers) ───
+
+Bildirim Matrisi:
+  ┌─────────────────────┬──────────────────┬─────────────────────────────┐
+  │ Tetikleyici         │ Zamanlama         │ Mesaj Örneği                │
+  ├─────────────────────┼──────────────────┼─────────────────────────────┤
+  │ Enerji doldu        │ Her 4 saat        │ "Enerjin hazır — üret!"     │
+  │ Pazar fiyatı        │ Anlık             │ "Demir ucuzladı"            │
+  │ Savaş saldırısı     │ Anlık             │ "Bölgen saldırı altında!"   │
+  │ Seçim son 24 saat   │ Gün 13            │ "Son sprint — oy topla!"    │
+  │ Günlük görev sıfır  │ 00:00 UTC         │ "Yeni görevler hazır"       │
+  │ 48 saat inaktif     │ 2 gün sonra       │ "Bölgen seni özledi"        │
+  └─────────────────────┴──────────────────┴─────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+4. İLERLEME SİSTEMİ (Progression System)
+═══════════════════════════════════════════════════════════════════════════════
+
+Tasarım Hedefi: Oyuncunun "Çalış" butonuna basan bir işçiden, kendi şirketini yöneten bir barona veya ülkeyi yöneten bir lidere dönüşümünü net aşamalarla hissettirmek.
+
+─── 4.1 Oyuncu Kariyer Aşamaları (Career Tiers) ───
+
+  Tier 1 — Yeni Vatandaş (Seviye 1–10)
+    Rol: İşçi / Üretici
+    Erişim: Çalış, depo, temel pazar alım-satım
+    Hedef: İlk 1000 Altın, ilk silah, bölge yerleşim izni
+
+  Tier 2 — Tüccar (Seviye 11–25)
+    Rol: Pazar oyuncusu
+    Erişim: İzleme listesi, toplu alım-satım, 2. bölgeye seyahat
+    Hedef: İlk büyük ticaret kârı, Tüccar rozeti
+
+  Tier 3 — Girişimci (Seviye 26–40)
+    Rol: Şirket kurucusu
+    Erişim: Şirket kurma, çalışan işe alma (NPC veya oyuncu), borsa erişimi
+    Hedef: İlk şirket, 5 çalışan, aylık kâr
+
+  Tier 4 — Baron (Seviye 41–60)
+    Rol: Sanayi devi / Bölgesel güç
+    Erişim: Fabrika inşaatı, bölge vergi muafiyeti teklifi, kiralık asker sözleşmeleri
+    Hedef: Bölgenin en büyük üreticisi olmak
+
+  Tier 5 — Siyasetçi (Seviye 35+, paralel yol)
+    Rol: Parti üyesi / Meclis adayı
+    Erişim: Kanun teklifi, bütçe oylaması, diplomasi
+    Hedef: Meclise girmek, bakanlık
+
+  Tier 6 — Lider (Seviye 50+, seçimle)
+    Rol: Cumhurbaşkanı / Diktatör / General
+    Erişim: Savaş ilanı, vergi belirleme, devlet pazar müdahalesi
+    Hedef: Ülkeyi yönetmek, savaş kazanmak, tarihe geçmek
+
+Not: Tier 5 ve 6, Tier 4 ile paralel ilerler — oyuncu hem baron hem siyasetçi olabilir.
+
+─── 4.2 Temel Statlar ───
+
+  Güç (STR): Savaş hasarı, taşıma kapasitesi, inşaat hızı
+  Zeka (INT): Üretim verimi, pazar analizi bonusu, casusluk başarısı
+  Karizma (CHA): Seçim oy toplama, diplomasi, çalışan sadakati
+  Dayanıklılık (END): Enerji havuzu, savaşta hayatta kalma, radyasyona direnç
+
+Statlar seviye atladıkça otomatik artar; oyuncu her 5 seviyede 1 "Özellik Puanı" ile manuel dağıtım yapar.
+
+─── 4.3 Yetenek Ağacı (Skill Tree) ───
+
+Üç ana dal; oyuncu istediği dala yatırım yapar, dallar arası geçiş mümkündür (respec: 500 Altın / ayda 1 ücretsiz).
+
+  ═══ ÜRETİM DALI (Production) ═══
+  [T1] Verimli Eller — Çalış çıktısı +%5
+    └─ [T2] Usta İşçi — Çalış çıktısı +%10, nadir kaynak şansı +%2
+        └─ [T3] Fabrika Yöneticisi — Fabrika üretimi +%15
+            └─ [T4] Sanayi Baronu — Kendi şirketindeki tüm üretim +%20
+                └─ [T5] Monopolist — Bir kaynak türünde bölge lideri olunca +%25 bonus
+
+  ═══ TİCARET DALI (Commerce) ═══
+  [T1] Pazar Gözü — İzleme listesi +3 slot
+    └─ [T2] Pazarlık Ustası — Alım fiyatı -%3, satım fiyatı +%3
+        └─ [T3] Toptancı — Toplu alım-satımda +%5 kâr
+            └─ [T4] Borsa Oyuncusu — Hisse senedi işlemlerinde komisyon -%50
+                └─ [T5] Ticaret İmparatoru — Küresel pazarda kendi ilanları öne çıkar
+
+  ═══ SAVAŞ DALI (Warfare) ═══
+  [T1] Temel Eğitim — Savaş hasarı +%5
+    └─ [T2] Cephe Savaşçısı — Savunma hasarı +%10
+        └─ [T3] Komutan — Kiralık asker sözleşmelerinde +%15 etkinlik
+            └─ [T4] Stratejist — Savaş hazırlığı görevlerinde çift ödül
+                └─ [T5] Fatih — Fetih sonrası ganimet payı +%20
+
+  ═══ SİYASET DALI (Politics) — Tier 3+ açılır ═══
+  [T1] Halkın Sesi — Propaganda etkisi +%10
+    └─ [T2] Parti Lideri — Parti üye limiti +5
+        └─ [T3] Kanun Ustası — Kanun teklifi kabul şansı +%15
+            └─ [T4] Diplomat — İttifak teklifleri +%20 kabul şansı
+                └─ [T5] Devlet Adamı — Bakanlık yetkilerinde +%25 etkinlik
+
+─── 4.4 Seviye, XP ve Enerji ───
+
+  XP Kaynakları: Çalış, ticaret, savaş, görevler, seçim katılımı, gazete yazısı
+  Enerji: Günlük aksiyon limiti (maks. 20, 4 saatte +1 yenilenir)
+  Seviye Başına: +1 Özellik Puanı (her 5 seviyede), +5 maks. enerji (her 10 seviyede)
+
+─── 4.5 Madalyalar ve Unvanlar ───
+
+  Kalıcı rozetler: Görev, savaş, ticaret ve siyasi başarılar
+  Unvanlar: "İlk Milyoner", "Fatih", "Baron", "Devlet Adamı" — profilde görünür, bazıları küçük stat bonusu verir (+%1–3, P2W değil)
+
+═══════════════════════════════════════════════════════════════════════════════
+5. RİSK / ÖDÜL MEKANİKLERİ (Risk/Reward Mechanics)
+═══════════════════════════════════════════════════════════════════════════════
+
+Tasarım Hedefi: Güvenli oynayan oyuncu istikrarlı ama yavaş ilerler; risk alan oyuncu büyük kazanır veya büyük kaybeder. Risk her zaman bilinçli ve ölçülebilir olmalıdır.
+
+─── 5.1 Ticaret Riskleri ───
+
+  Spekülasyon (Market Speculation):
+    • Oyuncu "Vadeli Sözleşme" açabilir: "3 gün sonra X ürününü Y fiyattan alacağım"
+  • Fiyat düşerse: Sözleşmeyi yerine getirmek zorunda → zarar
+  • Fiyat yükselirse: Ucuza almış olur → kâr
+  • Risk göstergesi: Volatilite çubuğu (Düşük / Orta / Yüksek)
+
+  Kara Borsa (Black Market):
+    • Vergi muafiyeti ama %30 yakalanma riski
+    • Yakalanırsa: Malına el konulur + İtibar -20 + 24 saat ticaret yasağı
+    • Başarılı olursa: +%40 kâr marjı
+
+  Toplu Yatırım (Bulk Investment):
+    • Depodaki kaynağın %50+'sını tek ürüne yatır → fiyat değişiminden büyük kâr/zarar
+    • "Tüm yumurtaları tek sepete koy" uyarısı UI'da açıkça gösterilir
+
+  Şirket Borçlanması:
+    • Şirket kuran oyuncu kredi çekebilir → hızlı büyüme
+    • Faiz: Günlük %2 bileşik
+    • Ödenmezse: Şirket iflas, tüm varlıklar müzayedeye çıkar
+
+─── 5.2 Savaş Riskleri ───
+
+  Agresif Saldırı (All-In Attack):
+    • Tüm enerjiyi tek saldırıda harca → hasar x1.5
+    • Başarısız olursa: Savunma karşı saldırısı → bölge savunma puanı -%10
+
+  Ön Cephe (Frontline Volunteer):
+    • İlk saldıran oyuncular +%25 ganimet payı alır
+    • Ama savunma karşılığı en yüksek hasarı bu oyunculara verir
+
+  Kiralık Asker Sözleşmesi:
+    • Başkasının savaşına katıl, önceden belirlenen ücreti al
+    • Savaş kaybedilirse: Ücret yine ödenir ama İtibar -5 (güvenilirlik sorgulanır)
+    • Savaş kazanılırsa: +İtibar, gelecekte daha yüksek ücret teklifleri
+
+  Casusluk:
+    • Düşman bölge bilgisi çal → saldırı planlamasında büyük avantaj
+    • Yakalanırsa: 48 saat hapis (oyun içi), İtibar -30, düşman ülkeye casusluk kanıtı
+
+─── 5.3 Siyasi Riskler ───
+
+  Darbe Girişimi:
+    • Başarı: Yeni yönetim, darbe lideri "Geçici Lider" unvanı
+    • Başarısızlık: 7 gün siyasi yasak, İtibar -50, partiden atılma
+
+  Diktatörlük:
+    • Günlük yıpranma payı (%5 savunma düşüşü) bilinçli risk
+    • Uzun süre diktatör kalırsan: Bölge çöküşü, isyan riski
+
+  Kanun Teklifi:
+    • Tartışmalı kanun (ör. %50 vergi artışı): Kabul → hazine dolar ama vatandaş memnuniyeti düşer → seçim kaybı riski
+
+─── 5.4 Risk Göstergesi (Risk Meter) ───
+
+  Her riskli eylemde UI'da 1–5 yıldızlı risk göstergesi:
+    ★ — Güvenli (düşük ödül)
+    ★★★ — Dengeli
+    ★★★★★ — Yüksek risk, yüksek ödül
+
+  Oyuncu profilinde "Risk Profili" istatistiği: Son 30 günde alınan risklerin özeti
+
+═══════════════════════════════════════════════════════════════════════════════
+6. ELDE TUTMA SİSTEMLERİ (Retention Systems)
+═══════════════════════════════════════════════════════════════════════════════
+
+─── 6.1 Bölgesel Etkinlikler (Regional Events) ───
+
+Amaç: Her bölge yaşayan, öngörülemeyen bir ortam hissi vermeli. Oyuncu "bugün bölgemde ne oluyor?" diye girmeli.
+
+Etkinlik Türleri:
+
+  Doğal Olaylar (Haftalık, rastgele):
+    • Deprem: Binalar hasar görür, onarım görevleri açılır, tamir eden oyuncular XP + kaynak kazanır
+    • Kuraklık: Tarım üretimi -%40, su fiyatı x3
+    • Petrol Bulgusu: 48 saat +%50 petrol üretimi, bölgeye göç dalgası
+
+  İnsan Kaynaklı Olaylar (Oyuncu tetiklemeli):
+    • İsyan: Memnuniyet %20 altına düşerse → üretim durur, lider değişikliği baskısı
+    • Festival: Lider tarafından başlatılır → bölge moral +%20, 24 saat üretim bonusu
+    • Ticaret Fuarı: Bölge 48 saat pazar komisyonu sıfır → ticaret hacmi patlar
+
+  Küresel Krizler (Game Master — 2 haftada 1):
+    • Dünya Çapında Kıtlık: Tahıl fiyatı x5, her ülke etkilenir
+    • Silahlanma Yarışı: Silah fiyatı x2, savaş hasarı +%15
+    • Ekonomik Çöküş: Tüm borsa değerleri -%30, fırsatçılar için altın günü
+
+Etkinlik Bildirimi:
+  • 24 saat önceden "yaklaşan etkinlik" haberi (gazete + bildirim)
+  • Etkinlik başladığında: Bölge haritasında görsel işaret, görev listesi güncellenir
+  • Etkinlik sonrası: Özet rapor, katkı sıralaması, ödüller
+
+─── 6.2 Sosyal İtibar (Reputation System) ───
+
+Amaç: Oyuncunun topluluk içindeki güvenilirliğini ölçmek; itibar hem kapı açar hem kapatır.
+
+İtibar Kategorileri (0–100 her biri):
+
+  Ticaret İtibarı:
+    • +Sözleşmeye sadık kalma, zamanında teslimat, adil fiyatlandırma
+    • -Dolandırıcılık, sözleşme iptali, kara borsa yakalanması
+    • 80+: "Güvenilir Tüccar" rozeti, pazar ilanlarında öncelik
+    • 20 altı: Ticaret yasağı (48 saat), kırmızı uyarı ikonu
+
+  Savaş İtibarı:
+    • +Cepheye katılım, söz verilen asker sayısını gönderme
+    • +Savaş sonrası ganimet adil paylaşımı
+    • -Kiralık asker sözleşmesini ihlal, cepheden kaçma
+    • 80+: "Güvenilir Komutan" — kiralık asker ücreti +%20
+    • 20 altı: Hiçbir ittifak sözleşmesi kabul etmez
+
+  Siyasi İtibar:
+    • +Seçim vaatlerini tutma, şeffaf bütçe yönetimi
+    • +Kanun tekliflerinde tutarlılık
+    • -Yolsuzluk (hazine kötüye kullanımı), darbe girişimi
+    • 80+: Seçimlerde +%10 oy bonusu
+    • 20 altı: Meclisten men, 14 gün siyasi yasak
+
+  Topluluk İtibarı:
+    • +Gazete yazıları, yeni oyunculara yardım, şikayet çözme
+    • -Toksik davranış, spam, topluluk kuralları ihlali
+    • 80+: "Topluluk Lideri" unvanı, konferans moderatörü olabilir
+
+İtibar Görünürlüğü:
+  • Profilde 4 kategori çubuğu (herkese açık)
+  • Ticaret/savaş sözleşmesi yaparken karşı tarafın itibarını görme
+  • Düşük itibarlı oyuncularla sözleşme yaparken sistem uyarısı
+
+İtibar Kurtarma:
+  • İtibar zamanla yavaş yenilenir (+1/gün, aktif oynarken)
+  • "İtibar Görevleri": Topluluk hizmeti yaparak hızlı toparlanma (+5/görev)
+  • 30 gün temiz kayıt → "Temiz Sayfa" bonusu (+10 tüm kategoriler)
+
+─── 6.3 Kayıp Oyuncu Geri Kazanımı (Win-Back) ───
+
+  3 gün inaktif: "Bölgen seni özledi" + küçük kaynak paketi
+  7 gün inaktif: "Savaş başlıyor, cephede yerin hazır" + 3 gün ücretsiz enerji bonusu
+  30 gün inaktif: "Yeni sezon başladı" + sıfırdan başlamadan geri dönüş paketi (kaynak kaybı yok, sadece momentum kaybı)
+
+═══════════════════════════════════════════════════════════════════════════════
+7. EKONOMİ VE TİCARET — OYUNUN KALBİ (Economy & Trade Core)
+═══════════════════════════════════════════════════════════════════════════════
+
+Tasarım Felsefesi: Hegemonia'nın ekonomisi bir "ikinci hayat" gibi işlemelidir — kurallar
+şeffaftır, veriler herkese açıktır; ancak sonuçlar oyuncu davranışı, siyasi müdahaleler ve
+bölgesel şoklarla tahmin edilemez kılınır. Oyuncu "neden bu fiyat?" sorusunun cevabını
+her zaman bulabilmeli; ama "yarın ne olacak?" sorusu strateji gerektirmelidir.
+
+Ekonomi Katmanları:
+  Katman 1 — Üretim: Bölgesel uzmanlaşma, Çalış eylemi, fabrika/şirket
+  Katman 2 — Dağıtım: Lojistik, gümrük, ambargo, seyahat maliyeti
+  Katman 3 — Piyasa: Küresel borsa, P2P pazar, arz-talep motoru
+  Katman 4 — Para: Ülke para birimleri, enflasyon, merkez bankası müdahalesi
+
+─── 7.1 Temel Üretim ve Çalışma ───
+
+Çalış Eylemi: Maden, petrol kuyusu, tarla veya fabrikada "Çalış" butonu → hammadde üretimi.
+  • Her Çalış: 1 Enerji harcar
+  • Çıktı = Temel Verim × Bölge Bonusu × Stat Bonusu × Şirket Bonusu × Enflasyon Düzeltmesi
+
+Kaynak Türleri (8 ana kategori):
+  ┌──────────────┬────────────────────────────────────────────────────────────┐
+  │ Kaynak       │ Kullanım Alanı                                             │
+  ├──────────────┼────────────────────────────────────────────────────────────┤
+  │ Tahıl        │ Enerji yenileme, nüfus besleme, bira/alkol üretimi         │
+  │ Demir        │ Silah, bina inşaatı, makine parçaları                      │
+  │ Petrol       │ Ulaşım, plastik, savaş lojistiği, enerji                   │
+  │ Odun         │ İnşaat, kağıt, erken dönem yakıt                          │
+  │ Bakır        │ Elektronik, mühimmat, iletişim ekipmanı                    │
+  │ Altın (ham)  │ Para basımı, lüks eşya, diplomasi hediyeleri               │
+  │ Uranyum      │ Nükleer silah, enerji santrali (geç oyun)                  │
+  │ Tekstil      │ Üniforma, moral bonusu, kozmetik                           │
+  └──────────────┴────────────────────────────────────────────────────────────┘
+
+Depo ve Lojistik:
+  • Başlangıç kapasitesi: 100 birim; her 50 birim genişletme = 500 Altın
+  • Bölgeler arası taşıma: Enerji maliyeti + mesafe çarpanı; şirket lojistik bonusu bunu düşürür
+  • Bozulabilir kaynaklar (Tahıl): 7 gün depoda kalırsa -%10 değer kaybı
+
+─── 7.2 Bölgesel Kaynak Uzmanlaşması (Regional Specialization) ───
+
+Tasarım Hedefi: Hiçbir bölge kendi kendine yetemez. Uzmanlaşma ticareti zorunlu kılar,
+ülkeleri ve oyuncuları birbirine muhtaç eder.
+
+Uzmanlaşma Matrisi:
+  Her bölge harita oluşturulurken 1 "Ana Uzmanlık" (%+40 verim) ve 1 "İkincil Uzmanlık"
+  (%+15 verim) alır. Diğer kaynaklarda "Normal" (%100) veya "Dezavantaj" (%-25) üretim
+  uygulanır.
+
+  Örnek Bölge Dağılımı:
+  ┌─────────────────┬──────────────┬──────────────┬─────────────────────────────┐
+  │ Bölge Tipi      │ Ana (+40%)   │ İkincil (+15%)│ Dezavantaj (-25%)          │
+  ├─────────────────┼──────────────┼──────────────┼─────────────────────────────┤
+  │ Kırsal Ova      │ Tahıl        │ Tekstil      │ Demir, Uranyum              │
+  │ Dağlık Maden    │ Demir        │ Bakır        │ Tahıl, Petrol               │
+  │ Çöl Bölgesi     │ Petrol       │ Uranyum      │ Odun, Tekstil               │
+  │ Ormanlık        │ Odun         │ Tahıl        │ Bakır, Petrol               │
+  │ Sanayi Koridoru │ Bakır        │ Demir        │ Tahıl, Altın                │
+  │ Altın Madeni    │ Altın (ham)  │ Bakır        │ Tahıl, Tekstil              │
+  └─────────────────┴──────────────┴──────────────┴─────────────────────────────┘
+
+Bölge Profil Kartı (UI):
+  Oyuncu her bölgeye tıkladığında görür:
+    • Uzmanlık rozetleri ve verim yüzdeleri
+    • Günlük üretim hacmi (son 24 saat, topluluk verisi)
+    • Net ihracat/ithalat dengesi (↑ ihracatçı / ↓ ithalatçı)
+    • "Bu bölgede ne üretilir?" hızlı rehber
+
+Kırılganlık ve Bağımlılık Döngüsü:
+  • Savaş bölgesi işgal edilirse: Üretim durur → küresel arz düşer → fiyat sıçrar
+  • Kuraklık etkinliği (Bkz. Bölüm 6.1): Tahıl bölgesi vurulursa tüm dünya etkilenir
+  • Oyuncu stratejisi: Kendi bölgesinde uzmanlaş, eksikleri pazardan tamamla VEYA
+    başka bölgeye göç et (göç maliyeti: 1000 Altın + 7 gün üretim yasağı)
+
+Ülke Düzeyinde Uzmanlaşma:
+  • Bir ülke birden fazla bölgeye sahipse, ulusal "Ticaret Profili" oluşur
+  • Meclis bu profili gazetede ilan eder: "Ülkemiz petrol ihracatçısıdır — tahıl ithal ediyoruz"
+  • Diplomasi: İthalatçı ülke, ihracatçı ülkeyle ticaret anlaşması yapar (gümrük indirimi)
+
+─── 7.3 Pazar Dinamikleri ve Arz-Talep Motoru (Market Dynamics) ───
+
+Tasarım Hedefi: Fiyatlar sabit değildir; her işlem, her kanun, her ambargo piyasayı hareket
+ettirir. Oyuncu bu hareketin kurallarını öğrenir ama tam kontrol edemez.
+
+Fiyat Hesaplama Formülü (her kaynak için saatlik güncellenir):
+
+  Pazar Fiyatı = Taban Fiyat × Arz Çarpanı × Talep Çarpanı × Siyasi Çarpanı × Olay Çarpanı
+
+  Arz Çarpanı   = 1 / (1 + 0.02 × Net Arz Fazlası)
+    Net Arz Fazlası = (Toplam Satış İlanları - Toplam Alım Emirleri) / Günlük Ortalama Hacim
+
+  Talep Çarpanı = 1 + (0.03 × Talep Baskısı)
+    Talep Baskısı = Aktif Alım Emirleri / Günlük Ortalama Hacim (maks. 2.0)
+
+  Siyasi Çarpanı = Gümrük × Ambargo × Devlet Müdahalesi (çarpımsal)
+
+  Olay Çarpanı = Bölgesel etkinlik, GM krizi, savaş etkisi (0.5 – 3.0 arası)
+
+Şeffaflık Paneli (Market Transparency Dashboard):
+  Her kaynak sayfasında herkes görebilir:
+    • Son 7 günlük fiyat grafiği
+    • Anlık arz/talep oranı (sayısal + görsel çubuk)
+    • Aktif gümrük ve ambargo listesi
+    • "Fiyatı Etkileyen Faktörler" özeti: "Petrol +%18 — Sebep: Çöl bölgesi savaşta, arz -%40"
+  Bu panel "şeffaf" kısmı sağlar; "tahmin edilemez" kısmı ise oyuncuların toplu
+  davranışı ve ani siyasi kararlardan gelir.
+
+Küresel Pazar Yeri (P2P):
+  • Bot yok — tüm ilanlar gerçek oyuncu veya devlet hesaplarından
+  • İlan türleri: Anlık Satış | Alım Emri | Vadeli Sözleşme (Bkz. Bölüm 5.1)
+  • Komisyon: %3 (devlet hazinesine gider — enflasyon emici)
+  • Her şey satılabilir: Hammadde, silah, kozmetik, Premium Altın
+
+─── 7.4 Ticaret Yasaları ve Siyasi Piyasa Müdahaleleri ───
+
+Gümrük Vergileri (Customs Duties):
+  • Her ülke meclisi, ülkeye giren her kaynak için %0–%50 gümrük oranı belirler
+  • Gümrük doğrudan fiyata eklenir: İthal ürün fiyatı = Pazar Fiyatı × (1 + Gümrük%)
+  • Etki: Yüksek gümrük → ithalat düşer → yerli arz değerlenir → yerli üretici kazanır
+         Ama tüketici fiyatları artar → vatandaş memnuniyeti düşer
+  • Meclis oylaması: 48 saat tartışma + 24 saat oylama; sonuç anında piyasaya yansır
+  • UI uyarısı: "Yarın tahıl gümrüğü %30'a çıkıyor — şimdi stokla?"
+
+Ambargolar (Trade Embargoes):
+  • Ülke A, Ülke B'ye ambargo koyabilir (meclis + cumhurbaşkanı onayı)
+  • Ambargo aktifken: İki ülke arası tüm ticaret durur (kara borsa hariç — Bkz. Bölüm 5.1)
+  • Küresel etki: Ambargo konan ülkenin ihracatı düşer → arz azalır → fiyat artar
+    Ambargo koyan ülke de ithalat kaybeder → kendi iç fiyatları etkilenir
+  • Kalkanık ambargo: İttifak üyeleri ambargoyu birlikte uygularsa etki x2
+  • Ambargo süresi: Minimum 3 gün, maksimum 14 gün (uzatma için yeniden oylama)
+
+Devlet Pazar Müdahalesi (Central Bank Actions):
+  • Hazine, meclis onayıyla küresel pazara doğrudan alım/satım yapabilir
+  • "Piyasaya Mal Sürme": Devlet stoklarından ucuz satış → arz artar → fiyat düşer
+  • "Stok Toplama": Devlet pazardan toplu alım → arz azalır → fiyat artar
+  • Savaş hazırlığında silah stoklamak veya krizde tahıl dağıtmak için kullanılır
+  • Risk: Hazine boşalırsa ülke ekonomisi savunmasız kalır
+
+Ticaret Anlaşmaları (Trade Treaties):
+  • İki ülke arasında ikili anlaşma: Belirli kaynaklarda gümrük %0–%5
+  • Süre: 7–30 gün; yenileme diplomatik müzakere gerektirir
+  • Anlaşma bozulursa (savaş ilanı vb.): Anında gümrük normale döner, fiyat şoku yaşanır
+
+Arz-Talep Eğrisi Görselleştirmesi (UI):
+  Oyuncu pazar ekranında basit bir eğri grafiği görür:
+    X ekseni: Miktar (arz) | Y ekseni: Fiyat
+    • Soluk çizgi: Mevcut denge noktası
+    • Yeşil ok: "Alım baskısı artarsa fiyat buraya gider"
+    • Kırmızı ok: "Arz artarsa fiyat buraya gider"
+    • Sarı işaret: "Gümrük/ambargo etkisi ile yeni denge noktası"
+  Bu grafik eğitici amaçlıdır; gerçek fiyat formülüyle senkronize çalışır.
+
+─── 7.5 Şirketleşme ve Borsa (Corporations & Stock Exchange) ───
+
+Tasarım Hedefi: Şirketler ve borsa, "Çalış" butonunun ötesinde ekonominin ana aktörleri
+olmalı; üretim hızı, lojistik ve sermaye burada şekillenir.
+
+Şirket Kurma (Tier 3+ — Girişimci):
+  • Maliyet: 2000 Altın + 500 Demir + Bölge izni
+  • Şirket türleri:
+    - Üretim Şirketi: Fabrika işletir, Çalış çıktısını x çarpanla artırır
+    - Ticaret Şirketi: Lojistik bonusu, gümrük maliyetini -%10, depo kapasitesi x2
+    - Holding: Diğer şirketlerin hisselerini satın alır, pasif gelir
+
+Şirket Yapısı:
+  ┌────────────────┬──────────────────────────────────────────────────────────┐
+  │ Rol            │ Yetki ve Kazanç                                          │
+  ├────────────────┼──────────────────────────────────────────────────────────┤
+  │ Kurucu/CEO     │ %51+ hisse → tam kontrol, maaş belirleme, yatırım kararı │
+  │ Yönetim Kurulu │ %10+ hisse → oylama hakkı (yatırım, temettü, birleşme)    │
+  │ Çalışan        │ Maaş (Altın/gün) + opsiyonel hisse opsiyonu (%1–5)       │
+  │ Yatırımcı      │ Hisse sahibi → temettü + fiyat artışı kazancı            │
+  └────────────────┴──────────────────────────────────────────────────────────┘
+
+Hisse Senedi Mekaniği (Core Loop Entegrasyonu):
+
+  Halka Arz (IPO):
+    • Şirket kurucusu borsada halka arz yapabilir (min. 100 hisse)
+    • Başlangıç fiyatı = (Şirket Varlıkları + 7 Günlük Kâr Tahmini) / Toplam Hisse
+    • Halka arz geliri şirket kasasına girer → fabrika yatırımı, lojistik filosu vb.
+
+  Hisse İşlemleri:
+    • Oyuncular borsadan hisse alır/satır (P2P emir defteri)
+    • Fiyat: Son işlem fiyatı ± arz/talep (kaynak pazarıyla aynı motor, ayrı havuz)
+    • Komisyon: %2 (enflasyon emici)
+
+  Temettü (Dividend):
+    • CEO haftalık kârın %0–%50'sini temettü olarak dağıtabilir (yönetim kurulu oylaması)
+    • Yüksek temettü → yatırımcı çeker → hisse fiyatı artar
+    • Düşük temettü + yüksek yatırım → uzun vadeli üretim artışı
+
+  Hisse → Üretim Bağlantısı (Ana Döngü):
+    • Şirketin borsa değeri arttıkça "Yatırım Puanı" birikir
+    • Yatırım Puanı harcanır:
+      - Fabrika Seviyesi +1 → Çalış çıktısı +%10 (maks. Seviye 5)
+      - Lojistik Ağı → Bölgeler arası taşıma maliyeti -%5 (maks. -%25)
+      - AR-GE → Nadir kaynak şansı +%3 (maks. +%9)
+    • Bu bağlantı hisse senedini "sadece spekülasyon" olmaktan çıkarır;
+      yatırımcı gerçek üretim büyümesine ortak olur
+
+  Şirket İflası:
+    • Hisse değeri 7 gün üst üste taban fiyatın altında → iflas süreci başlar
+    • Varlıklar müzayedeye çıkar (kaynak pazarı)
+    • Çalışanlar işsiz kalır (24 saat üretim yasağı)
+    • CEO itibarı -20
+
+Borsa Endeksi (Hegemonia 500):
+  • En büyük 20 şirketin ağırlıklı hisse fiyatı toplamı
+  • Günlük yayınlanır — gazete manşeti: "Borsa bugün %3 düştü"
+  • Endeks düşüşü → tüm ülkelerde "Ekonomik Güven" -%5 (seçim ve savaş moralini etkiler)
+  • Endeks artışı → "Ekonomik Güven" +%5
+
+Oyuncu Yolculuğu (Şirket → Borsa → Ekonomi):
+  1. İşçi olarak Çalış → kaynak biriktir
+  2. Tüccar olarak pazarda kâr et → sermaye oluştur
+  3. Girişimci olarak şirket kur → üretimi ölçeklendir
+  4. Baron olarak halka arz yap → toplumdan yatırım al
+  5. Yatırımcı olarak başka şirketlere ortak ol → pasif gelir
+  6. Lider olarak devlet hazinesiyle borsayı müdahale et → ulusal strateji
+
+─── 7.6 Enflasyon ve Para Birimi Yönetimi (Inflation & Monetary Policy) ───
+
+Tasarım Hedefi: Para basıldığında değer kaybetmeli; toplandığında güçlenmeli. Bu, devletleri
+ve oyuncuları "para politikası" oynamaya zorlar.
+
+Para Birimi Yapısı:
+  • Her ülkenin kendi para birimi vardır (ör. "Lira", "Kron", "Dinar")
+  • Küresel pazar işlemleri "Hegemon Altını" (HA) cinsinden — evrensel takas birimi
+  • Döviz kuru: 1 Ülke Parası = X HA (dinamik, arz-talep ile belirlenir)
+
+Para Arzı Kaynakları (Enflasyonist Baskı):
+  ┌────────────────────────────┬────────────────────────────────────────────────┐
+  │ Kaynak                     │ Etki                                           │
+  ├────────────────────────────┼────────────────────────────────────────────────┤
+  │ Devlet bütçe açığı         │ Hazine para basar → arz artar → değer düşer    │
+  │ Savaş tazminatı ödemesi    │ Kazanan ülkeye toplu para transferi            │
+  │ Görev/etkinlik ödülleri    │ Kontrollü enjeksiyon (günlük tavan limitli)    │
+  │ Merkez bankası faiz ödemesi│ Borçlanan devlete para girişi                   │
+  │ Oyuncu "Çalış" geliri      │ Üretim kaynaklı — enflasyona en düşük etki     │
+  └────────────────────────────┴────────────────────────────────────────────────┘
+
+Para Arzı Emiciler (Deflasyonist Baskı):
+  ┌────────────────────────────┬────────────────────────────────────────────────┐
+  │ Emici                      │ Etki                                           │
+  ├────────────────────────────┼────────────────────────────────────────────────┤
+  │ Pazar komisyonu (%3)       │ Her ticarette HA yok edilir                    │
+  │ Borsa komisyonu (%2)       │ Hisse işlemlerinde HA yok edilir               │
+  │ Vergi tahsilatı            │ Oyuncu gelirinin %5–%30'u hazinede kilitlenir  │
+  │ Bina inşaatı / araştırma   │ Büyük miktarda HA harcanır (yok edilir)        │
+  │ Enflasyon vergisi (otomatik)│ Aşırı enflasyonda sistem %1 HA yakma uygular   │
+  └────────────────────────────┴────────────────────────────────────────────────┘
+
+Enflasyon Formülü (ülke bazlı, günlük hesaplanır):
+
+  Günlük Enflasyon Oranı = (Günlük Para Enjeksiyonu - Günlük Para Emişi) / Toplam Para Arzı
+
+  Enflasyon Etkileri:
+    • %0–%2/gün: Normal — fiyatlar stabil
+    • %2–%5/gün: Yüksek — pazar fiyatları +%3–%8/gün artar, vatandaş memnuniyeti -%2
+    • %5+/gün: Hiperenflasyon — fiyatlar +%15/gün, "ekonomik kriz" etkinliği tetiklenir
+    • Negatif (deflasyon): Fiyatlar düşer ama üretim motivasyonu -%10 (kimse satmak istemez)
+
+Merkez Bankası Araçları (Devlet/Lider Yetkisi):
+  • Faiz Oranı Artırma: Kredi çekmeyi zorlaştırır → para arzı yavaşlar → enflasyon düşer
+    Yan etki: Ekonomik büyüme yavaşlar, işsizlik artar (çalışan memnuniyeti -%5)
+  • Para Yakma (Burn): Hazine HA yok eder → arz düşer → para değerlenir
+  • Döviz Müdahalesi: HA satın alarak kur sabitleme (hazine riski)
+  • Asgari Rezerv Kuralı: Hazine HA'sı belirli seviyenin altına düşerse otomatik kriz
+
+Oyuncu Düzeyinde Enflasyon Deneyimi:
+  • Cüzdandaki HA'nın "Gerçek Değeri" göstergesi: "Bugün 1000 HA = dünkü 970 HA"
+  • Uzun vadeli stoklama cezalandırılır → oyuncuları aktif ticarete iter
+  • Akıllı oyuncu: Enflasyon yükselirken kaynakta kal, düşerken nakitte kal
+  • "Şeffaf ama tahmin edilemez": Enflasyon oranı herkes tarafından görülür;
+    ama meclis kararı, savaş sonucu veya GM krizi aniden değiştirebilir
+
+─── 7.7 Ekonomik Şeffaflık ve Öngörülemezlik Dengesi ───
+
+Şeffaf Veriler (Herkesin Görebildiği):
+  • Küresel pazar fiyatları ve 7 günlük grafikler
+  • Ülke enflasyon oranları ve para arzı
+  • Borsa endeksi ve şirket bilançoları
+  • Gümrük/ambargo durumları ve süreleri
+  • Bölgesel uzmanlaşma haritası ve üretim hacimleri
+  • Devlet hazinesi bakiyesi (masraf detayı gizli, toplam rakam açık)
+
+Tahmin Edilemezlik Kaynakları (Kontrol Dışı):
+  • Oyuncu toplu davranışı: "Herkes tahıl stokluyor" → fiyat sıçraması
+  • Ani siyasi kararlar: Gece yarısı ambargo, sabah fiyatlar değişmiş
+  • Savaş ve fetih: Bölge el değiştirince arz haritası yeniden çizilir
+  • GM krizleri: Küresel kıtlık, ekonomik çöküş (Bkz. Bölüm 6.1)
+  • Casusluk ve kara borsa: Görünmeyen arz/talep (yakalanma riskiyle)
+  • Diktatör kararları: Tek kişinin anlık kararı tüm ekonomiyi sarsabilir
+
+Ekonomi Gazetesi (Auto-Generated):
+  Her 6 saatte sistem bir "Ekonomi Bülteni" yayınlar:
+    • "Petrol fiyatları %12 arttı — Çöl bölgesinde savaş devam ediyor"
+    • "Kuzey Birliği ambargosu kalktı — tahıl fiyatları düşüşe geçti"
+    • "Hegemonia 500 endeksi rekor kırdı — Demir A.Ş. halka arz etti"
+  Bu bülten hem bilgilendirme hem bağlılık aracıdır (Bkz. Bölüm 3.1 Pazar Takibi).
+
+─── 7.8 Ekonomi — Diğer Sistemlerle Entegrasyon ───
+
+  Siyaset (Bölüm 9): Gümrük, ambargo, bütçe, merkez bankası → doğrudan fiyat/enflasyon
+  Savaş (Bölüm 10): Bölge işgali → arz kesintisi; ganimet → para enjeksiyonu
+  İtibar (Bölüm 6.2): Ticaret itibarı düşük → gümrük muafiyeti reddedilir
+  Risk/Ödül (Bölüm 5): Spekülasyon, kara borsa, şirket borçlanması → enflasyon tetikleyici
+  Bağlılık (Bölüm 3): Pazar takibi, ekonomi bülteni, günlük ticaret görevleri
+  İlerleme (Bölüm 4): Tier 2 Tüccar → Tier 4 Baron → borsa ve şirket açar
+
+═══════════════════════════════════════════════════════════════════════════════
+8. BÖLGE YÖNETİMİ VE ÇEVRESEL MEKANİKLER
+═══════════════════════════════════════════════════════════════════════════════
+
+Seyahat: Bölgeler arası intikal (çalışma veya savaş için).
+
+Binalar ve İndeksler: Hastane, okul, askeri üs → Gelişim ve Savunma indekslerine doğrudan etki.
+
+Özerklik ve Sınırlar: Bölgenin siyasi haritadaki yeri, komşuları, yönetim şekli.
+
+Radyasyon ve Kirlilik: Sürekli savaş veya aşırı endüstriyel üretimin yaşanabilirlik üzerindeki etkisi.
+
+═══════════════════════════════════════════════════════════════════════════════
+9. MECLİS, SİYASET VE ÜLKE YÖNETİMİ
+═══════════════════════════════════════════════════════════════════════════════
+
+Meclis ve Parti: Parti kurma, üye toplama, meclis seçimleri.
+
+Kanunlar ve Bütçe: Yasa tasarısı, vergi oranları, ülke bütçesi yönetimi.
+
+Diktatörlük ve Yıpranma Payı: Diktatörlükte her gün bölge savunma gücü -%5.
+
+Lider ve Bakanlar: Hiyerarşik yönetim kadrosu, farklı yetki izinleri.
+
+Diplomasi: İttifaklar, göç/askeri antlaşmalar, ekonomik yaptırımlar.
+
+═══════════════════════════════════════════════════════════════════════════════
+10. SAVAŞ VE ÇATIŞMA MEKANİKLERİ
+═══════════════════════════════════════════════════════════════════════════════
+
+Hasar Formülü: Statlar + silah gücü + harcanan enerji = net hasar.
+
+Asenkron Cephe: Hedef bölgenin Savunma Puanına karşı Saldır/Savun butonlarıyla sayısal hasar yarışı.
+
+Fetih Sonuçları: Savunması düşen bölgenin tüm kaynakları ve üretim potansiyeli kazanan ülkeye geçer.
+
+Kiralık Asker: Başka ülkenin savaşına ücret karşılığı katılım (bkz. Bölüm 5.2).
+
+═══════════════════════════════════════════════════════════════════════════════
+11. MEDYA, SOSYAL ETKİLEŞİM VE REKABET
+═══════════════════════════════════════════════════════════════════════════════
+
+Gazete ve Makaleler: Oyuncu medyası; propaganda ve bilgi savaşı.
+
+Canlı Sohbet Akışı: Discord benzeri akan chat — Global, Ülke, Ticaret, Parti kanalları.
+
+Konferanslar: Ülke ve klan içi taktik odaları.
+
+Topluluk Kuralları: Argo filtresi, şikayet mekanizması.
+
+Liderlik Tabloları: Üretim, hasar, ticaret hacmi sıralamaları.
+
+═══════════════════════════════════════════════════════════════════════════════
+12. KULLANICI ARAYÜZÜ (UI) ve DENEYİM (UX)
+═══════════════════════════════════════════════════════════════════════════════
+
+Tasarım Dili: Hızlı yüklenen, sekmeli, mobil uyumlu menü geçişleri.
+
+Ana Ekran Widget'ları: Enerji çubuğu, günlük görevler, pazar nabzı, bölge etkinliği, itibar özeti.
+
+Bildirim Merkezi: Tüm tetikleyiciler tek panelde; oyuncu hangi bildirimleri alacağını seçebilir.
+
+═══════════════════════════════════════════════════════════════════════════════
+13. TEKNİK ALTYAPI VE MİMARİ
+═══════════════════════════════════════════════════════════════════════════════
+
+Backend: Firebase veya Supabase — maliyet-etkin, ölçeklenebilir.
+
+Güvenlik: Anti-bot, makro koruması, veri şifreleme.
+
+Bildirim Altyapısı: Web Push + e-posta; FCM (mobil PWA).
+
+═══════════════════════════════════════════════════════════════════════════════
+14. GELİR MODELİ (Monetization)
+═══════════════════════════════════════════════════════════════════════════════
+
+Adil Ekonomi: P2W kesinlikle yok.
+
+Ödüllü Reklamlar: "30 sn reklam izle → 2 saat 2x üretim hızı."
+
+Kozmetik Mikro Ödemeler: İsim rengi, tema, profil çerçevesi.
+
+Destekçi Sistemi: Bağış + "Destekçi" rozeti.
+
+═══════════════════════════════════════════════════════════════════════════════
+15. YOL HARİTASI (Roadmap)
+═══════════════════════════════════════════════════════════════════════════════
+
+Faz 1 — Alfa (Ay 1–2):
+  Çalış, depo, temel P2P pazar, günlük görevler, bölgesel uzmanlaşma (statik harita),
+  temel arz-talep fiyat motoru, Tier 1–2 ilerleme
+
+Faz 2 — Beta Ekonomi (Ay 3–4):
+  Gümrük vergileri, ticaret anlaşmaları, şirket kurma, yetenek ağacı, pazar şeffaflık paneli,
+  enflasyon temel modeli, itibar sistemi, Tier 3–4
+
+Faz 3 — Beta Siyaset (Ay 5–6):
+  Meclis, seçim döngüsü, ambargo mekaniği, merkez bankası araçları, Tier 5,
+  bölgesel etkinlikler, ekonomi bülteni
+
+Faz 4 — Lansman (Ay 7–8):
+  Borsa ve hisse senedi, halka arz, Hegemonia 500 endeksi, savaş-ekonomi entegrasyonu,
+  sezonluk lig, canlı chat, Tier 6, risk/ödül tam entegrasyon
+
+Faz 5 — Ekonomi 2.0 (Ay 9+):
+  Holding yapıları, vadeli sözleşme pazarı, kara borsa, casusluk, GM küresel krizleri,
+  hiperenflasyon/kriz döngüleri, çoklu para birimi arbitrajı
+
+Sosyal Dinamikler: Kiralık asker, gazetecilik mesleği, konferanslar.
+Karanlık Sanatlar: Casusluk, vergi kaçırma, kara borsa.
+Oyun Yöneticisi (GM): Periyodik küresel krizler ve ekonomik şoklar.
+
+═══════════════════════════════════════════════════════════════════════════════
+SON
+═══════════════════════════════════════════════════════════════════════════════

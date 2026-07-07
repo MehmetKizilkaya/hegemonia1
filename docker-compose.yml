@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hegemonia-db
+    environment:
+      POSTGRES_USER: hegemonia
+      POSTGRES_PASSWORD: hegemonia_dev
+      POSTGRES_DB: hegemonia
+    ports:
+      - "5432:5432"
+    volumes:
+      - hegemonia_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hegemonia"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  hegemonia_pg_data:

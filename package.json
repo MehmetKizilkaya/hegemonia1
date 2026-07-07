@@ -1,0 +1,26 @@
+{
+  "name": "hegemonia",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "db:migrate": "npm run db:migrate --workspace=@hegemonia/api",
+    "db:seed": "npm run db:seed --workspace=@hegemonia/api",
+    "dev:api": "npm run dev --workspace=@hegemonia/api",
+    "dev:web": "npm run dev --workspace=@hegemonia/web"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

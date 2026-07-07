@@ -1,0 +1,11 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm install && npm run build --workspace=@hegemonia/shared && npm run build --workspace=@hegemonia/api"
+
+[deploy]
+startCommand = "npm run start --workspace=@hegemonia/api"
+preDeployCommand = "npm run db:migrate:prod --workspace=@hegemonia/api"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+healthcheckPath = "/health"
+healthcheckTimeout = 120
